@@ -23,7 +23,11 @@ export function compileInput(input: string, options: CompileOptions) {
 	const content = fs.readFileSync(input, 'utf-8')
 
 	try {
-		const result = mjml(content, options.mjml)
+		const mjmlOptions = Object.assign({
+			filePath: fs.realpathSync(options.input),
+		}, options.mjml)
+
+		const result = mjml(content, mjmlOptions)
 		const outputFile = input
 			.replace(options.input, options.output)
 			.replace('.mjml', options.extension)
